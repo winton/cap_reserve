@@ -1,36 +1,52 @@
 CapReserve
-===========
+==========
 
-A gem template for new projects.
+Uses a `maitre_d` server to reserve time on deploy environments.
 
 Requirements
 ------------
 
 <pre>
-gem install stencil
+gem install cap_reserve
 </pre>
 
-Setup the template
-------------------
+Setup
+-----
 
-You only have to do this once.
+You must have a [maitre_d](https://github.com/winton/maitre_d) server running first.
 
-<pre>
-git clone git@github.com:winton/cap_reserve.git
-cd cap_reserve
-stencil
-</pre>
+### deploy.rb
 
-Setup a new project
--------------------
+    require 'cap_reserve'
 
-Do this for every new project.
+    task :setup_reserve do
+      ENV['RESERVE_ENV'] = 'staging'
+      ENV['RESERVE_URL'] = 'http://localhost:3000'
+      reserve
+   	end
 
-<pre>
-mkdir my_project
-git init
-stencil cap_reserve
-rake rename
-</pre>
+   	before "deploy", "setup_reserve"
 
-The last command does a find-replace (gem\_template -> my\_project) on files and filenames.
+Use It
+------
+
+Reserve your environment for 10 minutes:
+
+    cap deploy RESERVE=10
+
+Force the deploy even if reserved:
+
+    cap deploy FORCE=1
+
+How it Works
+------------
+
+The `reserve` cap task looks for the following `ENV` variables:
+
+    ENV['FORCE']        # Force deploy
+    ENV['RESERVE']      # Minutes to reserve environment
+    ENV['RESERVE_ENV']  # Name of deploy environment
+    ENV['RESERVE_URL']  # URL to your maitre_d server
+    ENV['USER']         # Name of user
+ 
+ In the example above, we use the `setup_reserve` cap task to set up these variables.
