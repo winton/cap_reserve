@@ -1,8 +1,8 @@
-unless defined?(GemTemplate::Gems)
+unless defined?(CapReserve::Gems)
   
   require 'yaml'
   
-  module GemTemplate
+  module CapReserve
     module Gems
       class <<self
         

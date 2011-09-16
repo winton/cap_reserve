@@ -1,13 +1,13 @@
-name: gem_template
+name: cap_reserve
 version: 0.1.0
 authors:
-  -
-email:
-homepage:
+  - Winton Welsh
+email: mail@wintoni.us
+homepage: https://github.com/winton/cap_reserve
 summary:
 description:
 dependencies:
-  -
+  - nestful
 development_dependencies:
   - rake
   - rspec
