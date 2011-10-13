@@ -71,6 +71,9 @@ HELP
         end
       end
     rescue Exception => e
+      if e.inspect.include?('SystemExit')
+        exit 0
+      end
     end
   end
 end
