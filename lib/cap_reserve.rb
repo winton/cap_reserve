@@ -13,6 +13,11 @@ Capistrano::Configuration.instance(:must_exist).load do
     env, user, time, force, url, destroy =
       ENV['RESERVE_ENV'], ENV['USER'], ENV['RESERVE'], ENV['FORCE'], ENV['RESERVE_URL'], ENV['DESTROY']
 
+    help = <<-HELP
+FORCE=1 to deploy anyway
+DESTROY=1 to deploy and destroy reservation
+HELP
+
     expires_to_string = lambda do |expires|
       left = Time.at(expires) - Time.now
       if left < 60
@@ -41,11 +46,11 @@ Capistrano::Configuration.instance(:must_exist).load do
         get.call("#{url}/reservations/create", {
           :environment => env, :user => user, :seconds => time.to_i * 60
         }.merge(params))
-        puts "Reservation created: #{user}@#{env} for #{time.to_i} minutes"
+        puts "\n\e[32mReservation created\e[0m: \e[33m#{user}@#{env}\e[0m for \e[33m#{time.to_i} minutes\e[0m\n\n"
       elsif destroy
         res = get.call("#{url}/reservations/destroy", :environment => env)
         if res['status'] == 'reserved'
-          puts "Reservation destroyed: #{res['user']}@#{env} (#{expires_to_string.call Time.at(res['expires'])} left)"
+          puts "\n\e[32mReservation destroyed\e[0m: \e[33m#{res['user']}@#{env}\e[0m (\e[33m#{expires_to_string.call Time.at(res['expires'])}\e[0m left)\n\n"
         end
       end
     end
@@ -58,7 +63,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       else
         res = get.call("#{url}/reservations/show", :environment => env)
         if res['status'] == 'reserved'
-          puts "Reservation exists: #{res['user']}@#{env} for #{expires_to_string.call Time.at(res['expires'])}"
+          puts "\n\e[31mReservation exists\e[0m: \e[33m#{res['user']}@#{env}\e[0m for \e[33m#{expires_to_string.call Time.at(res['expires'])}\e[0m\n#{help}\n"
           exit 0
         else
           create.call({})
