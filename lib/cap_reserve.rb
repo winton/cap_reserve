@@ -1,7 +1,5 @@
-require File.dirname(__FILE__) + '/cap_reserve/gems'
-
-CapReserve::Gems.activate %w(nestful)
-require 'nestful'
+gem "nestful", "= 0.0.7"
+require "nestful"
 
 $:.unshift File.dirname(__FILE__)
 

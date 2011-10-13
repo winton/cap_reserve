@@ -1,5 +1,0 @@
-cap_reserve:
-  rake: >=0.8.7
-  rspec: ~>1.0
-  default:
-  	nestful: =0.0.7
