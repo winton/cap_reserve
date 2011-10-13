@@ -20,6 +20,6 @@ Gem::Specification.new do |s|
   s.test_files = `cd #{root} && git ls-files -- {features,test,spec}/*`.split("\n")
 
   s.add_development_dependency "rspec", "~> 1.0"
-  
-  s.add_dependency "nestful", "= 0.0.7"
+
+  s.add_dependency "yajl-ruby", "= 1.0.0"
 end
