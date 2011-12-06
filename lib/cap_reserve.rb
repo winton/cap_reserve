@@ -11,8 +11,8 @@ Capistrano::Configuration.instance(:must_exist).load do
   desc "Reserve environment using RESERVE=minutes"
   task :maitre_d do
     begin
-      env, user, time, force, url, destroy =
-        ENV['RESERVE_ENV'], ENV['USER'], ENV['RESERVE'], ENV['FORCE'], ENV['RESERVE_URL'], ENV['DESTROY']
+      env, user, time, force, url, destroy, branch =
+        ENV['RESERVE_ENV'], ENV['USER'], ENV['RESERVE'], ENV['FORCE'], ENV['RESERVE_URL'], ENV['DESTROY'], ENV['BRANCH']
 
       help = <<-HELP
   FORCE=1 to deploy anyway
@@ -44,7 +44,7 @@ HELP
       create = lambda do |params|
         if time
           get.call("#{url}/reservations/create", {
-            :environment => env, :user => user, :seconds => time.to_i * 60
+            :environment => env, :user => user, :seconds => time.to_i * 60, :branch => branch
           }.merge(params))
           puts "\n\e[32mReservation created\e[0m: \e[33m#{user}@#{env}\e[0m for \e[33m#{time.to_i} minutes\e[0m\n\n"
         elsif destroy
