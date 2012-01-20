@@ -22,7 +22,7 @@ You must have a [maitre_d](https://github.com/winton/maitre_d) server running fi
     task :reserve do
       ENV['RESERVE_ENV'] = 'staging'
       ENV['RESERVE_URL'] = 'http://localhost:3000'
-      maitre_d
+      maitre_d.default
    	end
 
    	before "deploy", "reserve"
