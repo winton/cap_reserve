@@ -107,7 +107,7 @@ HELP
         res = get.call("#{url}/reservations/show", :environment => env)
         puts "#{env.yellow} is #{res['status'] == 'available' ? "available".green : "reserved".red}"
         if res['status'] == 'reserved'
-          puts "  #{"#{res['user']}@#{env}".yellow} for #{expires_to_string.call(Time.at(res['expires'])).yellow}"
+          puts "  #{"#{res['user']}@#{env}".yellow} for #{expires_to_string.call(Time.at(res['expires'])).yellow} at branch #{res['branch'].yellow}"
         end
         puts "\n"
       end
