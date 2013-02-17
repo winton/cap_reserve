@@ -55,8 +55,9 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Reserve environment using RESERVE=minutes"
     task :default do
       begin
-        env, user, time, force, url, destroy, branch =
-          ENV['RESERVE_ENV'], ENV['USER'], ENV['RESERVE'], ENV['FORCE'], ENV['RESERVE_URL'], ENV['DESTROY'], ENV['BRANCH']
+        env, time, force, url, destroy, branch =
+          ENV['RESERVE_ENV'], ENV['RESERVE'], ENV['FORCE'], ENV['RESERVE_URL'], ENV['DESTROY'], ENV['BRANCH']
+        user = ENV['DEPLOYER'] || ENV['USER']
 
         help = <<-HELP
 FORCE=1 to deploy anyway
@@ -84,7 +85,7 @@ HELP
             create.call(:force => true)
           else
             res = get.call("#{url}/reservations/show", :environment => env)
-            if res['status'] == 'reserved'
+            if res['status'] == 'reserved' and res['user'] != user
               puts "\n#{"Reservation exists".red}: #{"#{res['user']}@#{env}".yellow} (#{expires_to_string.call(Time.at(res['expires'])).yellow})\n#{help}\n"
               exit 0
             else
