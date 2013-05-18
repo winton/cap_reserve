@@ -1,8 +1,6 @@
-gem 'yajl-ruby', '= 1.0.0'
-
 require 'open-uri'
 require 'uri'
-require 'yajl'
+require 'json'
 
 $:.unshift File.dirname(__FILE__)
 
@@ -49,7 +47,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       params.chop! # trailing &
 
       json = open("#{full_url}?#{params}").read
-      Yajl::Parser.parse(json)
+      JSON.parse(json)
     end
 
     desc "Reserve environment using RESERVE=minutes"

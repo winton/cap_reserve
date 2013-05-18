@@ -6,7 +6,7 @@ $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
   s.name        = "cap_reserve"
-  s.version     = '0.1.8'
+  s.version     = '0.1.9'
   s.platform    = Gem::Platform::RUBY
   s.authors     = [ "Winton Welsh" ]
   s.email       = [ "mail@wintoni.us" ]
@@ -20,6 +20,4 @@ Gem::Specification.new do |s|
   s.test_files = `cd #{root} && git ls-files -- {features,test,spec}/*`.split("\n")
 
   s.add_development_dependency "rspec", "~> 1.0"
-
-  s.add_dependency "yajl-ruby", "= 1.0.0"
 end
